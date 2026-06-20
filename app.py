@@ -350,89 +350,89 @@ if page == "Executive Summary":
         with st.container(border=True):
             st.metric("Segments", 3)
 
-tick_divider()
+    tick_divider()
 
-section_label("Dataset Preview")
+    section_label("Dataset Preview")
 
-st.dataframe(
-    df.head(),
-    use_container_width=True,
-    hide_index=True
-)
+    st.dataframe(
+        df.head(),
+        use_container_width=True,
+        hide_index=True
+    )
 
-tick_divider()
+    tick_divider()
 
 # ==========================
 # SMARTPHONE OS DISTRIBUTION
 # ==========================
 
-if "Which smartphone OS do you primarily use" in df.columns:
+    if "Which smartphone OS do you primarily use" in df.columns:
 
-    st.markdown(
-        """
-        <h3 style='text-align:center;'>
-        📱 Smartphone OS Distribution
-        </h3>
-        """,
-        unsafe_allow_html=True
-    )
+        st.markdown(
+            """
+            <h3 style='text-align:center;'>
+            📱 Smartphone OS Distribution
+            </h3>
+            """,
+            unsafe_allow_html=True
+        )
 
-    os_counts = (
-        df["Which smartphone OS do you primarily use"]
-        .value_counts()
-        .reset_index()
-    )
+        os_counts = (
+            df["Which smartphone OS do you primarily use"]
+            .value_counts()
+            .reset_index()
+        )
 
-    os_counts.columns = [
-        "OS",
-        "Count"
-    ]
+        os_counts.columns = [
+            "OS",
+            "Count"
+        ]
 
-    left_space, chart_col, right_space = st.columns(
-        [1, 2, 1]
-    )
+        left_space, chart_col, right_space = st.columns(
+            [1, 2, 1]
+        )
 
-    with chart_col:
+        with chart_col:
 
-        fig = px.pie(
-            os_counts,
-            names="OS",
-            values="Count",
-            hole=0.30,
-            color_discrete_sequence=[
-                "#00D4FF",
-                "#FFB020",
-                "#52E38B"
+            fig = px.pie(
+                os_counts,
+                names="OS",
+                values="Count",
+                hole=0.30,
+                color_discrete_sequence=[
+                    "#00D4FF",
+                    "#FFB020",
+                    "#52E38B"
+                ]
+            )
+
+        fig.update_traces(
+            textinfo="percent",
+            textfont_size=16
+        )
+
+        fig.update_layout(
+            title=None,
+            height=500,
+            showlegend=False,
+            paper_bgcolor="#071426",
+            plot_bgcolor="#071426",
+            margin=dict(l=0, r=0, t=0, b=0),
+            annotations=[
+                dict(
+                    text=f"{len(df)}<br>Users",
+                    showarrow=False,
+                    font=dict(size=24)
+                )
             ]
         )
 
-    fig.update_traces(
-        textinfo="percent",
-        textfont_size=16
-    )
+        st.plotly_chart(
+            fig,
+            use_container_width=True
+        )
 
-    fig.update_layout(
-        title=None,
-        height=500,
-        showlegend=False,
-        paper_bgcolor="#071426",
-        plot_bgcolor="#071426",
-        margin=dict(l=0, r=0, t=0, b=0),
-        annotations=[
-            dict(
-                text=f"{len(df)}<br>Users",
-                showarrow=False,
-                font=dict(size=24)
-            )
-        ]
-    )
-
-    st.plotly_chart(
-        fig,
-        use_container_width=True
-    )
-
-    tick_divider()
+        tick_divider()
 
 
 # ==========================
